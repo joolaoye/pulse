@@ -1,0 +1,50 @@
+{
+    "show": {
+      "show_id": "pulse-e2e",
+      "title": "Pulse E2E",
+      "description": "End-to-end test episodes generated and published by Pulse.",
+      "author": "Pulse",
+      "category": "Technology",
+      "language": "en-US",
+      "explicit": false,
+      "feed_object_key": "shows/pulse-e2e/rss.xml"
+    },
+  
+    "pipeline": {
+      "pipeline_id": "pulse-e2e-01",
+      "target_episode_duration_seconds": 360,
+      "enabled": true,
+  
+      "podcast_profile": {
+        "name": "Pulse Daily",
+        "purpose": "Help listeners quickly understand the most relevant technology and startup developments of the day.",
+        "target_audience": "Software engineers, technical founders, and technology professionals who are comfortable with technical concepts but want concise context and analysis.",
+        "editorial_style": "Prioritize technically substantive developments, explain why they matter, connect related stories, and avoid hype-driven framing.",
+        "conversational_style": "Natural, analytical, and conversational, explaining ideas clearly without sounding scripted."
+      },
+  
+      "speakers": [
+        {
+          "speaker_id": "host",
+          "display_name": "Host",
+          "podcast_role": "Primary host",
+          "persona": "Curious, analytical, and skeptical of hype.",
+          "expertise": [
+            "software engineering",
+            "technology",
+            "startups"
+          ],
+          "speaking_style": "Conversational, concise, and direct."
+        }
+      ],
+  
+      "speaker_voice_bindings": [
+        {
+          "speaker_id": "host",
+          "voice_id": "5u41aNhyCU6hXOcjPPv0"
+        }
+      ],
+  
+      "interest_profile_markdown": "# AI Infrastructure\n\nInterested in:\n- vector databases\n- GPU systems\n- inference optimization\n\n# Agentic Workflows\n\nInterested in:\n- orchestration systems\n- autonomous agents\n- semantic memory\n\n# Startups\n\nInterested in:\n- early-stage startups\n- AI infrastructure startups\n- developer tools"
+    }
+}

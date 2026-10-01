@@ -1,0 +1,15 @@
+[project]
+name = "orjson"
+version = "0.0.0"
+requires-python = ">=3.12"
+
+[build-system]
+requires = [
+    "setuptools>=75",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = [
+    "src",
+]

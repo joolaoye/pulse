@@ -1,0 +1,88 @@
+[project]
+name = "pulse"
+version = "0.1.0"
+description = "Turn a curated X list into a podcast"
+requires-python = ">=3.12"
+
+dependencies = [
+    "aiosqlite==0.22.1",
+    "anthropic==1.2.0",
+    "httpx==0.28.1",
+    "langchain-anthropic==1.7.0",
+    "langchain-core==1.6.1",
+    "langgraph==1.2.11",
+    "langgraph-checkpoint-sqlite==3.1.1",
+    "langgraph-sdk==0.4.4",
+    "pydantic[email]>=2.10,<3",
+    "python-dotenv==1.2.3",
+    "rich==15.0.0",
+    "typer==0.27.2",
+    "tzdata",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+    "pytest-asyncio>=0.26.0",
+    "ruff>=0.11.8",
+    "pyright>=1.1.400",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+addopts = ["-m", "not e2e"]
+markers = ["e2e: live end-to-end tests using external services"]
+
+[tool.pyright]
+pythonVersion = "3.12"
+typeCheckingMode = "basic"
+
+[project.scripts]
+pulse = "pulse.cli.main:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pulse"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = ["src"]
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "F",      # pyflakes
+    "I",      # import sorting
+    "B",      # bugbear
+    "C4",     # comprehensions
+    "SIM",    # simplifications
+    "PIE",    # unnecessary code
+    "PERF",   # performance footguns
+    "RUF",    # Ruff-specific cleanup
+    "ASYNC",  # async mistakes
+]
+
+ignore = [
+    "E501",    # formatter handles wrapping
+    "RUF022",  # __all__ stays grouped by domain
+]
+
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["typer.Argument", "typer.Option"]
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+force-sort-within-sections = true
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+skip-magic-trailing-comma = false

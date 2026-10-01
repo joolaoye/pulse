@@ -1,0 +1,68 @@
+# Environment
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.python-version
+
+# Virtual environments
+.venv/
+.venv-*/
+.devenv/
+venv/
+
+# Python packaging
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# Testing / tooling
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.tox/
+
+# Runtime artifacts
+logs/
+/runtime/
+
+# Local databases
+*.sqlite
+*.sqlite3
+*.db
+
+# Node
+node_modules/
+
+# Cloudflare Worker generated artifacts
+workers/cloudflare/python_modules/
+workers/cloudflare/bundled/
+workers/cloudflare/.venv/
+workers/cloudflare/.venv-workers/
+
+# Generated from wrangler.jsonc.template by pulse init
+wrangler.jsonc
+
+# Pyodide toolchain copies left beside the Worker
+workers/cloudflare_runtime-venv/
+workers/cloudflare_runtime-venv-workers/
+
+# Wrangler local state
+.wrangler/
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/

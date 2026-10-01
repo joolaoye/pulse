@@ -1,0 +1,12 @@
+{
+  "name": "pulse",
+  "private": true,
+  "devDependencies": {
+    "wrangler": "4.128.0"
+  },
+  "scripts": {
+    "worker:deploy": "wrangler deploy --config workers/cloudflare/wrangler.jsonc",
+    "worker:dry-run": "wrangler deploy --dry-run --config workers/cloudflare/wrangler.jsonc",
+    "worker:dev": "wrangler dev --config workers/cloudflare/wrangler.jsonc"
+  }
+}

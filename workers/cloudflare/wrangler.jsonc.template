@@ -1,0 +1,67 @@
+{
+    "$schema": "../../node_modules/wrangler/config-schema.json",
+  
+    "name": "pulse-worker",
+    "main": "entrypoint.py",
+  
+    "compatibility_date": "2026-09-21",
+  
+    "compatibility_flags": [
+      "python_workers",
+      "python_workflows"
+    ],
+  
+    "workflows": [
+      {
+        "name": "pulse-pipeline",
+        "binding": "PULSE_PIPELINE_WORKFLOW",
+        "class_name": "PulsePipelineWorkflow"
+      }
+    ],
+
+    "triggers": {
+      "crons": [
+        "*/5 * * * *"
+      ]
+    },
+  
+    "python_modules": {
+      "exclude": [
+        "**/*.pyc",
+        "**/__pycache__",
+        "**/tests/**",
+        "**/test/**"
+      ]
+    },
+  
+    "d1_databases": [
+      {
+        "binding": "PULSE_DB",
+        "database_name": "{{PULSE_D1_DATABASE_NAME}}",
+        "database_id": "{{CLOUDFLARE_D1_DATABASE_ID}}"
+      }
+    ],
+
+    "r2_buckets": [
+      {
+        "binding": "PULSE_PODCAST_BUCKET",
+        "bucket_name": "{{PULSE_PODCAST_BUCKET_NAME}}"
+      }
+    ],
+  
+    "vars": {
+      "CLOUDFLARE_ACCOUNT_ID": "{{CLOUDFLARE_ACCOUNT_ID}}",
+      "CLOUDFLARE_D1_DATABASE_ID": "{{CLOUDFLARE_D1_DATABASE_ID}}",
+      "PULSE_VECTORIZE_INDEX_NAME": "{{PULSE_VECTORIZE_INDEX_NAME}}",
+      "PULSE_PODCAST_BUCKET_NAME": "{{PULSE_PODCAST_BUCKET_NAME}}"
+    },
+
+    "observability": {
+        "enabled": true,
+        "head_sampling_rate": 1,
+        "traces": {
+          "enabled": true,
+          "head_sampling_rate": 1
+        }
+    }
+}
