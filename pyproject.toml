@@ -37,6 +37,11 @@ markers = ["e2e: live end-to-end tests using external services"]
 pythonVersion = "3.12"
 typeCheckingMode = "basic"
 
+# Test doubles are duck-typed stand-ins for concrete collaborators.
+[[tool.pyright.executionEnvironments]]
+root = "tests"
+reportArgumentType = "none"
+
 [project.scripts]
 pulse = "pulse.cli.main:app"
 

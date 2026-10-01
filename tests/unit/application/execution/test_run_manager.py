@@ -1,9 +1,11 @@
 from types import SimpleNamespace
+from typing import cast
 
 import pytest
 
 from pulse.application.execution.errors import WorkflowRunPipelineMismatchError
 from pulse.application.execution.run_manager import RunManager
+from pulse.application.workflow_factory import PulseWorkflowFactory
 from pulse.types import (
     PodcastProfile,
     SpeakerProfile,
@@ -83,7 +85,7 @@ def _manager(runner: _Runner) -> tuple[RunManager, _WorkflowFactory]:
     application = SimpleNamespace(podcast_pipeline_runtime_factory=_RuntimeFactory())
     manager = RunManager(application=application)
     workflow_factory = _WorkflowFactory(runner)
-    manager._workflow_factory = workflow_factory
+    manager._workflow_factory = cast(PulseWorkflowFactory, workflow_factory)
     return manager, workflow_factory
 
 
@@ -118,7 +120,7 @@ async def test_resume_returns_a_completed_run_without_executing_it() -> None:
     result = await manager.resume(run_id="run-1", pipeline_id="pipeline-a")
 
     assert result is completed
-    assert result["workflow_outcome"] == WorkflowOutcome.PUBLISHED
+    assert result.get("workflow_outcome") == WorkflowOutcome.PUBLISHED
     assert runner.resume_calls == 0
     assert runner.run_calls == []
 

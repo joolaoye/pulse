@@ -143,8 +143,9 @@ async def test_beat_inherits_topic_signals_and_requested_duration() -> None:
 
 
 async def test_beat_rejects_an_unknown_signal_reference() -> None:
+    beat_planning_agent = _BeatAgent(BeatPlanningOutput(title="Title", purpose="Purpose"))
     planner = BeatPlanner(
-        beat_planning_agent=_BeatAgent(BeatPlanningOutput(title="Title", purpose="Purpose")),
+        beat_planning_agent=beat_planning_agent,
         conversation_angle_planner=_AnglePlanner(_angle()),
         question_planner=_QuestionPlanner(_questions()),
     )
@@ -160,7 +161,7 @@ async def test_beat_rejects_an_unknown_signal_reference() -> None:
             target_duration_seconds=10,
         )
 
-    assert planner.beat_planning_agent.inputs == []
+    assert beat_planning_agent.inputs == []
 
 
 async def test_first_beat_rejects_a_segue() -> None:

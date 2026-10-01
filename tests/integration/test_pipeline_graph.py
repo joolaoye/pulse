@@ -426,11 +426,13 @@ async def test_pipeline_graph_publishes_episode(tmp_path: Path) -> None:
         finally:
             runner.close()
 
-    assert result["workflow_outcome"] == WorkflowOutcome.PUBLISHED
-    assert result["no_content_reason"] is None
-    assert result["episode_id"] == EPISODE_ID
-    assert result["publication_result"].episode_id == EPISODE_ID
-    assert result["publication_result"].guid == f"urn:pulse:{SHOW_ID}:{EPISODE_ID}"
+    publication = result.get("publication_result")
+    assert result.get("workflow_outcome") == WorkflowOutcome.PUBLISHED
+    assert result.get("no_content_reason") is None
+    assert result.get("episode_id") == EPISODE_ID
+    assert publication is not None
+    assert publication.episode_id == EPISODE_ID
+    assert publication.guid == f"urn:pulse:{SHOW_ID}:{EPISODE_ID}"
     assert pipeline.events == _published_events()
     assert pipeline.events.index(PublishEpisodeNode.name) < pipeline.events.index(
         CommitSignalsNode.name
@@ -454,8 +456,8 @@ async def test_pipeline_graph_completes_without_episode(tmp_path: Path) -> None:
         finally:
             runner.close()
 
-    assert result["workflow_outcome"] == WorkflowOutcome.NO_CONTENT
-    assert result["no_content_reason"] == NoContentReason.NO_UNSEEN_SIGNALS
+    assert result.get("workflow_outcome") == WorkflowOutcome.NO_CONTENT
+    assert result.get("no_content_reason") == NoContentReason.NO_UNSEEN_SIGNALS
     assert "publication_result" not in result
     assert pipeline.events == [
         RetrieveSourcesNode.name,
@@ -521,7 +523,9 @@ async def test_pipeline_graph_resumes_same_logical_run(tmp_path: Path) -> None:
             failed_runner.close()
 
         assert checkpoint is not None
-        assert checkpoint.config["configurable"]["thread_id"] == run_id
+        configurable = checkpoint.config.get("configurable")
+        assert configurable is not None
+        assert configurable["thread_id"] == run_id
         assert restored["run_id"] == run_id
         assert restored["episode_id"] == EPISODE_ID
         assert "stored_episode_audio" in restored
@@ -548,9 +552,11 @@ async def test_pipeline_graph_resumes_same_logical_run(tmp_path: Path) -> None:
         finally:
             resumed_runner.close()
 
-    assert result["workflow_outcome"] == WorkflowOutcome.PUBLISHED
-    assert result["episode_id"] == EPISODE_ID
-    assert result["publication_result"].episode_id == EPISODE_ID
+    publication = result.get("publication_result")
+    assert result.get("workflow_outcome") == WorkflowOutcome.PUBLISHED
+    assert result.get("episode_id") == EPISODE_ID
+    assert publication is not None
+    assert publication.episode_id == EPISODE_ID
     assert pipeline.published_episode_ids == [EPISODE_ID, EPISODE_ID]
     assert pipeline.events.count(RetrieveSourcesNode.name) == 1
     assert pipeline.events.count(ProduceAudioNode.name) == 1
