@@ -239,4 +239,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution workflow and the con
 
 ## License
 
-A license has not yet been selected for Pulse.
+Pulse is licensed under the [Apache License 2.0](LICENSE.md).
