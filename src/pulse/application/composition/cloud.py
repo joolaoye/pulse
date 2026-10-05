@@ -10,6 +10,7 @@ from pulse.application.composition.models import (
     ProviderCredentials,
     ResourceNames,
 )
+from pulse.application.execution.errors import MissingCloudResourceError
 
 
 @asynccontextmanager
@@ -22,7 +23,7 @@ async def bootstrap_cloud(
     r2_bucket: object | None = None,
 ) -> AsyncIterator[PulseApplication]:
     if r2_bucket is None:
-        raise RuntimeError(
+        raise MissingCloudResourceError(
             "Cloud audio production requires the PULSE_PODCAST_BUCKET R2 binding. "
             "Refusing to fall back to a spooled REST upload."
         )

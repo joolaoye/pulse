@@ -2,7 +2,6 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
-import sys
 from typing import List, Tuple
 from zipfile import BadZipFile, ZipFile
 
@@ -159,9 +158,45 @@ def _download_wheel(
     package: str,
     version: str,
 ) -> Path:
-    command = [
-        sys.executable,
-        "-m",
+    command = _pure_python_wheel_download_command(
+        package=package,
+        version=version,
+    )
+
+    try:
+        subprocess.run(
+            command,
+            cwd=_TEMP_WHEELS_PATH,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+    except FileNotFoundError as error:
+        raise DeploymentBuildError(_missing_wheel_downloader_message()) from error
+    except subprocess.CalledProcessError as error:
+        if _is_wheel_downloader_failure(error):
+            raise DeploymentBuildError(_missing_wheel_downloader_message()) from error
+
+        raise DeploymentBuildError(
+            f"Failed to download pure-Python wheel for {package} {version}."
+        ) from error
+
+    return _resolve_downloaded_wheel(
+        package=package,
+    )
+
+
+def _pure_python_wheel_download_command(
+    *,
+    package: str,
+    version: str,
+) -> List[str]:
+    return [
+        "uv",
+        "tool",
+        "run",
+        "--from",
+        "pip",
         "pip",
         "download",
         "--no-deps",
@@ -173,19 +208,27 @@ def _download_wheel(
         f"{package}=={version}",
     ]
 
-    try:
-        subprocess.run(
-            command,
-            cwd=_TEMP_WHEELS_PATH,
-            check=True,
-        )
-    except subprocess.CalledProcessError as error:
-        raise DeploymentBuildError(
-            f"Failed to download pure-Python wheel for {package} {version}."
-        ) from error
 
-    return _resolve_downloaded_wheel(
-        package=package,
+def _missing_wheel_downloader_message() -> str:
+    return (
+        "Deployment requires pip to download Python wheels, but pip is not "
+        "installed in the current environment. Install uv, then retry "
+        "deployment. Pulse downloads these wheels with `uv tool run --from pip`."
+    )
+
+
+def _is_wheel_downloader_failure(
+    error: subprocess.CalledProcessError,
+) -> bool:
+    output = f"{error.stdout or ''}\n{error.stderr or ''}"
+
+    return any(
+        marker in output
+        for marker in (
+            "No module named pip",
+            "Failed to spawn `pip`",
+            "Failed to install tool",
+        )
     )
 
 
