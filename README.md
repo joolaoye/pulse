@@ -4,7 +4,7 @@
 
 Pulse transforms a curated X list into a personalized podcast. It finds new and relevant ideas, removes repeated noise, groups related stories, plans and writes a coherent episode, synthesizes the audio, and publishes a standard podcast RSS feed that can be consumed by Spotify or another compatible podcast client.
 
-🎧 **[Listen to Pulse on Spotify](https://open.spotify.com/show/033expZMk082DlYDGaAJ6c)**
+🎧 **[Listen to Pulse on Spotify](https://open.spotify.com/show/1KITcInPK8iza4VkEqb6YK)**
 
 <p align="center">
   <img
