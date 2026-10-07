@@ -8,8 +8,8 @@ dependencies = [
     "httpx==0.28.1",
     # Resolver-safe dependency base.
     # worker_dependencies.py replaces this with the pinned LangChain 1.x wheels.
-    "msgpack==1.1.2",
-    "langchain-core>=0.3.81,<1.0.0",
+    "msgpack==1.2.1",
+    "langchain-core>=1.3.3,<2.0.0",
     "pydantic[email]>=2.10,<3",
     "python-dotenv==1.2.3",
     "requests",
