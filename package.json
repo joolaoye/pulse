@@ -2,7 +2,7 @@
   "name": "pulse",
   "private": true,
   "devDependencies": {
-    "wrangler": "4.128.0"
+    "wrangler": "4.148.0"
   },
   "scripts": {
     "worker:deploy": "wrangler deploy --config workers/cloudflare/wrangler.jsonc",
